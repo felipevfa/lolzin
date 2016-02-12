@@ -1,0 +1,35 @@
+{% load lolzin_extras %}
+{% include 'lolzin/head.html' %}
+<main>
+	<div class="questionnaire" style="background-image: url({{ background }})">
+		<div id="timer" class="right" data-timer="20"></div>
+		<div class="q-holder">
+			<p>{{item_name}} </p><br>
+			
+			<img src="{{imgsrc}}" class="left" >
+			<div class="question left">
+				<h2>Qual o valor de <span style="color: #D00000">{{atributo}}</span>?</h2>
+
+				<form action="{% url 'basic' %}" method="POST" id="options-form">
+					{% csrf_token %}
+
+					{% for opcao in opts%}
+						{% if opcao == item_correto %}
+							<input type='radio' value='1'  name='choice'>
+							<label for="choice">{{opcao}}</label>
+						{% else %}
+							<input type='radio' value='0' name='choice'>
+							<label for="choice">{{opcao}}</label>
+						{% endif %}
+						<br>
+					{%endfor%}
+					<input type='submit' value ='Responder' id="answer-button" class="submit-button">
+				</form>
+			</div>
+			<div class="clear"></div>
+
+		</div>
+	</div>	
+</main>
+
+{% include 'lolzin/footer.html' %}

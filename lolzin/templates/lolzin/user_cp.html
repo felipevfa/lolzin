@@ -1,0 +1,26 @@
+{% include 'lolzin/head.html' %}
+
+<main>
+	<div class="user-cp">
+		<h1>Painel de Controle</h1>
+
+		<div class="avatar-placeholder left"> 
+		{% if user.photo %}
+			<img src="{{ user.photo.url }}" /> 
+		{% endif %}
+		</div>
+		<ul class="user-info left">
+			<li>{{ user.nick }}</li>
+			<li>Pontuação: {{ user.points }}</li> 
+			<li>Liga: {{ user.league }}</li>
+			<li>Questões tentadas: {{ user.numQuestions }}</li>
+			<li>Questões corretas: {{ user.cQuestions }}</li>
+		</ul>
+
+		<ul class="user-menu right">
+			<li>Opções do Painel de Controle</li>
+		</ul>
+		</clear>
+	</div>
+</main>
+{% include 'lolzin/footer.html' %}

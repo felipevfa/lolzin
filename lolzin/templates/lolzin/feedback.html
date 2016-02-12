@@ -1,0 +1,27 @@
+{% include 'lolzin/head.html' %}
+
+<main class="feedback">
+	{% if resposta == 1%}
+		<h1>Parabéns, invocador, você acertou!</h1> 
+
+		{% if user.is_authenticated %}
+			<center><p>Você acumulou {{pts}} pontos de liga!</p></center>
+		{% endif %}
+
+		<center><img src={{win}}></center>
+	{% else %}
+		<h1>Você fracassou, invocador...</h1>
+
+		{% if user.is_authenticated %}
+			<center><p>Você perdeu {{pts}} pontos de liga!</p></center>
+		{% endif %}
+
+ 		<center><img src={{fail}}></center>
+	{% endif %}
+	<center><form action="{%url 'basic' %}">
+   		<input type="submit" id = "answer-button"  value="Clique aqui para continuar" class="submit-button">
+	</form></center>
+	
+</main>
+
+{% include 'lolzin/footer.html' %}

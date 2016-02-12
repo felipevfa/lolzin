@@ -1,0 +1,35 @@
+{% include 'lolzin/head.html' %}
+
+<main>
+	<h1>Ranking</h1>
+
+	<div class="ranking">
+		<center><table>
+			<tr>
+				<th>Posição</th>
+				<th>Usuário</th>
+				<th>Pontos</th>
+				<th>Win Rate</th>
+				<th>Liga</th>
+			</tr>
+			
+			{% for user in users %}
+			<tr>
+				<td>{{ forloop.counter }}</td>
+				<td>
+					<a href='{% url 'profile' user.nick %}'>
+						{{ user.nick }}
+					</a>
+				</td>
+				<td>{{ user.points }}</td>
+				<td>{{ user.winrate  }}</td>
+				<td>{{ user.league  }}</td>
+
+
+			</tr>
+			{% endfor %}
+		</table></center>
+	</div>
+</main>
+
+{% include 'lolzin/footer.html' %}

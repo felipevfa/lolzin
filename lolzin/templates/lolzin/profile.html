@@ -1,0 +1,27 @@
+{% include 'lolzin/head.html' %}
+{% load staticfiles %}
+<main style="background-image: url({{ background }})">
+
+	<div class="user-cp">
+		<h1>Perfil</h1>
+
+		<div class="avatar-placeholder left"> 
+			{% if profile_user.photo %}
+				<img src="{{ profile_user.photo.url }}" /> 
+			{% endif %}
+		</div>
+		<ul class="user-info left q-holder" >
+			<li>{{ profile_user.nick }}</li>
+			<li>Pontuação: {{ profile_user.points }}</li> 
+			<li>Liga: {{ profile_user.league }}</li>
+			<li>Questões tentadas: {{ profile_user.numQuestions }}</li>
+			<li>Questões corretas: {{ profile_user.cQuestions }}</li>
+		</ul>
+
+		<ul class="user-menu right">
+				<img src="{% static imgsrc_liga %}" /> 
+		</ul>
+		</clear>
+	</div>
+</main>
+{% include 'lolzin/footer.html' %}

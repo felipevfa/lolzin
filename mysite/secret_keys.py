@@ -1,0 +1,7 @@
+AWS_STORAGE_BUCKET_NAME = 'lolzin-static'
+AWS_ACCESS_KEY_ID = 'AKIAJDC4QUK5J2PWG4BQ'
+AWS_SECRET_ACCESS_KEY = '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'
+banco_NAME = 'lolmysql'
+banco_USER = 'masterusername'
+banco_PASSWORD = 'masterpassword'
+banco_ENDERECO = 'mysqllolzin.ctqyrb3j7rda.us-west-2.rds.amazonaws.com'
