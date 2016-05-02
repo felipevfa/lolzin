@@ -122,31 +122,8 @@ nav a:hover {
 	display: inline-block;
 }
 
-.questionnaire input[type="radio"] + label {	
-	font-size: 1.2em;
-	text-align: left;
 
-	padding: 5px;
-}
 
-.questionnaire input[type="radio"]:checked + label {
-	background-color: black;
-	color: white;
-}
-
-.submit-button {
-	font-size: 1em;
-	font-weight: bold;
-	text-transform: uppercase;
-
-	margin-top: 0.5em;
-	padding: 10px;
-
-	border: none;
-
-	background-color: black;
-	color: white;
-}
 
 .feedback p {
 	font-weight: lighter;
