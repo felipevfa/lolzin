@@ -75,6 +75,7 @@ def basic(request):
 			'background' : background_link,
 			'imgsrcliga' : imgsrc_liga,
 		}
+		logger.debug(background_link)
 		return render(request,'lolzin/basic.html', contexto)
 	else:
 		pts = 0.0
