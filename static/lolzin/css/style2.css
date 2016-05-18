@@ -1,0 +1,258 @@
+/* ============================
+   			USO GERAL
+   ============================ */
+
+ body {
+ 	font-family: 'Open Sans', Arial, Helvetica, sans-serif;
+ 	text-align: justify;
+ }
+
+ .clear { clear: both; }
+
+ .left { float: left; }
+
+ .right { float: right; }
+
+ main {
+ 	background-repeat: no-repeat;
+ 	background-position: top center;
+ 	min-height: calc(100vh - 120px);
+ }
+
+footer {
+	text-align: center;
+	font-weight: bold;
+	padding: 15px;
+
+	border-top: 2px solid black;
+}
+
+ /* ============================
+   		  	 TÍTULOS
+    ============================ */
+
+h1 {
+	font-size: 2.5em;
+	font-weight: bold;
+	text-align: center;
+	padding: 10px;
+}
+
+ /* ============================
+   		  	   MENU
+    ============================ */
+
+nav {
+	padding: 20px;
+	width: 90%;
+	margin: 0 auto;
+
+}
+
+nav a {
+	text-decoration: none;
+	text-transform: uppercase;
+	font-weight: bold;
+	padding: 10px;
+	color: black;
+}
+
+nav a:hover {
+	color: white;
+	background-color: black;
+	transition: 0.2s;
+}
+
+ /* ============================
+   		   QUESTIONÁRIO
+    ============================ */
+
+.questionnaire {
+	width: 90%;
+	height: 100%;
+	margin: 0 auto;
+	background: no-repeat;
+	color: black;
+	padding: 15px;
+}
+
+.questionnaire p {
+	font-weight: bold;
+	font-size: 1.5em;
+}
+
+.questionnaire img {
+	width: 80px;
+	height: 80px;
+	float: left;
+}
+
+.q-holder {
+	padding: 15px;
+	background: -webkit-linear-gradient(left, white, rgba(255,0,0,0));
+	background: -moz-linear-gradient(left, white, rgba(255,0,0,0));
+	background: linear-gradient(left, white, rgba(255, 0, 0, 0));
+}
+
+.question {
+	margin-left: 1em;
+}
+
+.question h2 {
+	font-weight: bold;
+	font-size: 1.2em;
+	margin-bottom: 0.6em;
+}
+
+.question h2 u {
+	text-decoration: none;
+	border-bottom: 2px solid black;
+}
+
+.q-info {
+	padding: 30px;
+	font-size: 1em;
+}
+
+.q-info ul li {
+	list-style-type: square;
+	margin-bottom: 0.5em;
+}
+
+.questionnaire label {
+	width: 40%;
+	display: inline-block;
+}
+
+.questionnaire input[type="radio"] + label {	
+	font-size: 1.2em;
+	text-align: left;
+
+	padding: 5px;
+}
+
+.questionnaire input[type="radio"]:checked + label {
+	background-color: black;
+	color: white;
+}
+
+.submit-button {
+	font-size: 1em;
+	font-weight: bold;
+	text-transform: uppercase;
+
+	margin-top: 0.5em;
+	padding: 10px;
+
+	border: none;
+
+	background-color: black;
+	color: white;
+}
+
+ /* ============================
+   		    CADASTRO
+    ============================ */
+
+.form {
+	width: 75%;
+	margin: 0 auto;
+	padding: 15px;
+	border: 3px solid black;
+}
+.form label {
+	margin-bottom: 0.4em;
+	display: block;
+	font-weight: bold;
+}
+
+.form input {
+	display: block;
+	margin-bottom: 0.4em;
+}
+
+.form-holder p {
+	width: 75%;
+	margin: 0.5em auto;
+}
+
+
+/* ============================
+ 		PAINEL DE CONTROLE
+   ============================ */
+
+.user-cp {
+	width: calc(90% - 20px);
+	margin: 0 auto;
+}
+
+.user-cp .user-info li:first-child {
+	font-weight: bold;
+	font-size: 2em;]
+	margin-top: -0.5em;
+	margin-bottom: 0.2em;
+}
+
+.user-cp ul li {
+	font-size: 1.2em;
+	margin-bottom: 0.2em;
+}
+
+.user-info {
+	float: left;
+}
+
+.avatar-placeholder {
+	width: 128px;
+	height: 128px;
+	background-color: black;
+	color: white;
+
+	text-align: center;
+
+	margin-right: 1em;
+}
+
+.avatar-placeholder img {
+	max-height: 128px;
+	max-width: 128px;
+}
+
+/* ===========================
+			 RANKING
+   =========================== */
+
+.ranking {
+	width: 80%;
+	margin: 0 auto;
+}
+
+.ranking table {
+	font-weight: bold;
+}
+
+.ranking th {
+	font-size: 1.5em;
+	text-align: center;
+	padding: 15px;
+}
+
+.ranking tr {
+	text-align: center;
+	padding: 10px;	
+}
+
+.ranking td {
+	text-align: center;
+	padding: 10px;
+}
+
+/* ===========================
+			 RELOGIO
+   =========================== */
+
+#timer {
+	width: 100px;
+	height: 100px;
+	color: white;
+}
