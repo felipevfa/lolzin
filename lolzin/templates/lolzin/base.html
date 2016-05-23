@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		{% load staticfiles %}
+		{% load lolzin_extras %}
+
+		<title>{% block page_title %}Lolzin Quiz{% endblock page_title %}</title>
+
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1">
+
+		<link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+		<link rel="stylesheet" type="text/css" href="{% static 'lolzin/css/materialize.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'lolzin/css/materialdesignicons.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'lolzin/css/styles.css' %}">
+	</head>
+
+	<body>
+		<header>
+			{% block nav %}
+				<div class="navbar-fixed">
+					<nav class="blue-grey darken-2">
+						<div class="nav-wrapper">
+							<a href="#" class="brand-logo">Lolquiz</a>
+							<a href="#" data-activates="mobile-nav" class="button-collapse"><i class="material-icons">menu</i></a>
+
+							<ul class="right hide-on-med-and-down">
+								<li class={% block active_index %} {% endblock active_index %}><a href="{% url 'index' %}">Página Inicial</a></li>
+								{% if request.user.is_authenticated %}
+									<li class={%block active_game %} {% endblock active_game %}><a href="{% url 'game' %}">Jogar</a></li>
+								{% endif %}
+								<li class={% block active_ranking %} {% endblock active_ranking %}><a href="{% url 'ranking' %}">Ranking</a></li>
+
+								{% if request.user.is_authenticated %}
+									<li class={% block active_cp %} {% endblock active_cp %}><a href="{% url 'profile' request.user.nick %}">Meu perfil</a></li>
+									<li><a href="{% url 'logout' %}">Desconectar</a></li>
+								{% else %}
+									<li class={% block active_signup %} {% endblock active_signup %}><a href="{% url 'signup' %}">Cadastrar</a></li>
+									<li class={% block active_login %} {% endblock active_login %}><a href="{% url 'login' %}">Login</a></li>
+								{% endif %}
+							</ul>
+
+							<ul class="side-nav" id="mobile-nav">
+								<li class={% block active_mindex %} {% endblock active_mindex %}><a href="{% url 'index' %}">Página Inicial</a></li>
+								<li class={%block active_mgame %} {% endblock active_mgame %}><a href="{% url 'game' %}">Jogar</a></li>
+								<li class={% block active_mranking %} {% endblock active_mranking %}><a href="{% url 'ranking' %}">Ranking</a></li>
+
+								{% if request.user.is_authenticated %}
+									<li class={% block active_mcp %} {% endblock active_mcp %}><a href="{% url 'user_cp' %}">Meu perfil</a></li>
+									<li><a href="{% url 'logout' %}">Desconectar</a></li>
+								{% else %}
+									<li class={% block active_msignup %} {% endblock active_msignup %}><a href="{% url 'signup' %}">Cadastrar</a></li>
+									<li class={% block active_mlogin %} {% endblock active_mlogin %}><a href="{% url 'login' %}">Login</a></li>
+								{% endif %}
+							</ul>
+						</div>
+					</nav>
+				</div>
+			{% endblock nav %}
+		</header>
+
+		<main>
+			{% block main_content %}{% endblock main_content %}
+		</main>
+
+		<footer class="page-footer blue-grey darken-2">
+			{% block footer %} {% endblock footer %}
+		</footer>
+
+		<!-- <script src="https://code.jquery.com/jquery-2.2.4.js" integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI=" crossorigin="anonymous"></script> -->
+		<script type="text/javascript" src="{% static 'lolzin/js/jquery.js' %}"></script>
+		<script type="text/javascript" src="{% static 'lolzin/js/materialize.min.js' %}"></script>
+		<script type="text/javascript" src="{% static 'lolzin/js/general.js' %}"></script>
+	</body>
+</html>

@@ -1,0 +1,189 @@
+{% extends "lolzin/base.html" %}
+{% load staticfiles %}
+
+{% block page_title %} O Códex {% endblock page_title %}
+
+{% block active_index %}"active"{% endblock active_index %}
+{% block active_mindex %} "active" {% endblock active_mindex %}
+
+{% block main_content %}
+<div class="index-wrapper">	
+	<section id="quiz-intro" class="blue-grey darken-4 valign-wrapper">
+		<div class="row">
+			{% if not request.user.is_authenticated %}
+				<div class="col s12 m6 l6">
+			{% else %}
+				<div class="col s12 m12 l12">
+			{% endif %}
+				<div class="container">
+					<h2 class="center">O Códex</h2>
+
+					<p class="flow-text">O quanto você realmente sabe sobre League of Legends? Será que sua mente está afiada para superar os nossos desafios, Invocador?</p>
+
+					<p class="flow-text">Venha! E batalhe pelo seu destino. Responda a uma série de perguntas sobre League of Legends e teste os seus conhecimentos!</p>
+
+					<h5>Desbrave. Conheça. Lute.</h5>
+			
+					<div class="center">
+						{% if not request.user.is_authenticated %}
+							<button type="button" class="hide-on-med-and-up btn-flat waves-effect" value="Cadastrar"><a class="white-text" href="{% url 'signup' %}">Cadastrar</a></button>
+							<button type="button" class="hide-on-med-and-up btn waves-effect" value="Login"><a class="black-text" href="{% url 'login' %}">Login</a></button>
+						{% else %}
+							<button type="button" class="btn-large orange waves-effect" value="Game"><a class="black-text" href="{% url 'game' %}">Jogar</a></button>
+						{% endif %}
+
+						<a href="#howto" class="btn-flat howto-btn orange-text">Como Jogar</a> 
+					</div>
+				</div>
+			</div>
+
+			{% if not request.user.is_authenticated %}
+				<div id="index-login" class="hide-on-small-only col s12 m6 l6 container">
+					<h2 class="center">Já é usuário?</h2>
+					<div class="form-holder">
+						<form action="{% url 'login' %}" method="POST" name="login-form" class="form">
+							{% csrf_token %}
+							
+							{{ form.non_field_errors }}
+							
+							<div class="input-field validate">
+								{{ form.username.errors }}
+								{{ form.username.label_tag }}
+								{{ form.username }}
+							</div>
+
+							<div class="input-field validate">
+								{{ form.password.errors }}
+								{{ form.password.label_tag }}
+								{{ form.password }}
+							</div>
+
+							<div class="center">
+								<button type="submit" name="action" class="btn waves-effect waves-light">Fazer Login</button>
+							</div>
+						</form>
+					</div>
+
+					<p class="center">Não é tem uma conta? Então <a href="{% url 'signup' %}" class="orange-text">cadastre-se!</a></p>
+				</div>
+			{% endif %}
+		</div>
+	</section>
+
+	<section id="first-about" class="grey lighten-2">
+		<div class="container">
+			<div class="row">
+				<h3>Uma experiência desafiadora</h3>
+
+		
+				<div class="col s12 m4 l4">
+					<div class="center"><i class="mdi mdi-help"></i></div>
+					<p class="flow-text">Teste os seus conhecimentos com perguntas sobre League of Legends! Os desafios vão desde habilidades de campeões a curiosidades sobre os itens! O nível é alto, então afie seu conhecimento técnico!</p>
+				</div>
+
+				<div class="col s12 m4 l4">
+					<div class="center"><i class="mdi mdi-format-list-numbers"></i></div>
+					<p class="flow-text">Faça uma conta para competir com outros jogadores e entrar no nosso ranking! Prepare-se para conhecer o nosso sistema de ligas e mostrar ao mundo que você é o invocador mais sábio!</p>
+				</div>
+
+				<div class="col s12 m4 l4">
+					<div class="center"><i class="mdi mdi-trophy"></i></div>
+					<p class="flow-text">Vença os desafios impostos e conquiste diversos troféus! Compartilhe suas vitórias com seu amigos através das redes sociais! (em construção)</p>
+				</div>
+			</div>
+
+			<div class="row" id="howto">
+				<h3>Como jogar?</h3>
+
+				<div class="col s12">
+					<p class="flow-text">Cada rodada gera uma pergunta aleatória sobre algum elemento do jogo (no momento, só implementamos as perguntas relacionadas aos itens). Você terá vinte segundos para responder a pergunta antes do sistema gerar a próxima; caso acerte, você receberá pontuação e subirá no ranking, do contrário, perderá pontos e cairá de posição! Esteja com seus conhecimentos afiados, Invocador, pois não haverá tempo para perguntar ao Mestre Google! ;)</p>
+				</div>
+			</div>
+
+			<div class="row">
+				<h3>Quem somos nós?</h3>
+
+				<div class="col s12 m6 l6">
+					<div class="center"><img class="responsive-img circle" src="{% static 'lolzin/img/fips.jpg' %}"></div>
+					<p class="flow-text">Felipe Aragão é graduando em Ciências da Computação na Universidade Federal do Ceará (UFC). Gosta de ler, jogar MOBAs, ver animes, pintar e desenhar. Ama desenvolvimento web, design e RPG!</p>
+				</div>
+
+				<div class="col s12 m6 l6">
+					<div class="center"><img class="responsive-img circle" src="{% static 'lolzin/img/nilo.jpg' %}"></div>
+					<p class="flow-text">Nilo Araújo é graduado em Ciências da Computação pela Universidade Federal do Ceará (UFC).</p>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section id="index-ranking" class="blue-grey darken-4">
+		<div class="container">
+			<h3>O Top 10</h3>
+
+			<ul class="collection ranking">
+				{% for user in top_ten %}
+						<li class="collection-item avatar">
+							<a href="{% url 'profile' user.nick %}">
+								<div class="left">
+									{% if user.photo %}
+										<img src="{{ user.photo.url }}" class="circle">
+									{% else %}
+										<div class="avatar-placeholder"></div>
+									{% endif %}
+
+									<span class="title">Posição {{ user.rank_position }}</span>
+									<p>{{ user.nick }}</p>
+									<p>Pontos: {{ user.points }}</p>
+								</div>
+
+								<p class="right">{{ user.league }}</p>
+								<div class="clear"></div>
+							</a>
+						</li>
+				{% endfor %}
+			</ul>
+
+			<a href="{% url 'ranking' %}" class="orange-text btn-flat waves-effect right">Ver ranking completo</a>
+			<div class="clear"></div>
+		</div>
+	</section>
+</div>
+{% endblock main_content %}
+
+{% block footer %}
+	<div class="container">
+		<div class="row">
+			<div class="col s12 m4 l4">
+				<h4>O Projeto</h4>
+
+				<p>O Códex foi desenvolvido como parte da disciplina de Engenharia de Software para Computação em Nuvem, ministrada pelo professor Fernando Trinta. Seus autores decidiram continuá-lo, melhorando suas funcionalidades e design.</p>
+			</div>
+
+			<div class="col s12 m4 l4">
+				<h4>Disclaimer</h4>
+
+				<p>Todo o conteúdo relacionado a League of Legends - termos, imagens e descrições - são propriedade intelectual da Riot Games.</p>
+			</div>
+
+			<div class="col s12 m4 l4">
+				<h4>Contate-nos</h4>
+				<h6>Felipe Aragão</h6>
+				<ul>
+					<li><i class="mdi mdi-email"></i> felipevfaragao@gmail.com</li>
+					<li><i class="mdi mdi-facebook"></i> facebook.com/felipe.aragao50</li>
+				</ul>
+				<h6>Nilo Araújo</h6>
+				<ul>
+					<li><i class="mdi mdi-email"></i> renard.agne@gmail.com</li>
+					<li><i class="mdi mdi-facebook"></i> facebook.com/nilo.araujo.neto</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	<div class="footer-copyright blue-grey darken-3">
+		<div class="container">
+			© Felipe Aragão e Nilo Araújo -  2016
+		</div>
+	</div>
+{% endblock footer %}

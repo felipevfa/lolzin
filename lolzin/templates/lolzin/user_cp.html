@@ -1,26 +1,25 @@
-{% include 'lolzin/head.html' %}
+{% extends "lolzin/base.html" %}
+{% load staticfiles %}
 
-<main>
-	<div class="user-cp">
-		<h1>Painel de Controle</h1>
+{% block page_title %} Painel de Controle {% endblock page_title %}
 
-		<div class="avatar-placeholder left"> 
-		{% if user.photo %}
-			<img src="{{ user.photo.url }}" /> 
-		{% endif %}
+{% block active_cp %} "active" {% endblock active_cp %}
+{% block active_mcp %} "active" {% endblock active_mcp %}
+
+{% block main_content %}
+	<section class="blue-grey darken-4 section-wrapper">
+		<div class="container">
+			<div class="row">
+				<h2 class="center">Painel de Controle</h2>
+			</div>
 		</div>
-		<ul class="user-info left">
-			<li>{{ user.nick }}</li>
-			<li>Pontuação: {{ user.points }}</li> 
-			<li>Liga: {{ user.league }}</li>
-			<li>Questões tentadas: {{ user.numQuestions }}</li>
-			<li>Questões corretas: {{ user.cQuestions }}</li>
-		</ul>
+	</section>
+{% endblock main_content %}
 
-		<ul class="user-menu right">
-			<li>Opções do Painel de Controle</li>
-		</ul>
-		</clear>
+{% block footer %}
+	<div class="footer-copyright blue-grey darken-3">
+		<div class="container">
+			© Felipe Aragão e Nilo Araújo - 2016
+		</div>
 	</div>
-</main>
-{% include 'lolzin/footer.html' %}
+{% endblock footer %}

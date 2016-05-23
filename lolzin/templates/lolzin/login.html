@@ -1,17 +1,45 @@
-{% include 'lolzin/head.html' %}
+{% extends "lolzin/base.html" %}
+{% load staticfiles %}
 
-<main>
-	<div class="form-holder"> 
-		<p>{{ login_msg }}</p>
-		<form action="{% url 'login' %}" method="POST" name="login-form" class="form">
-			{% csrf_token %}
+{% block page_title %} Login {% endblock page_title %}
 
-			{{ form }} 
+{% block active_login %} "active" {% endblock active_login %}
+{% block active_mlogin %} "active" {% endblock active_mlogin %}
 
-			<input type="submit" value="Login" class="submit-button">
-		</form>
+{% block main_content %}
+	<section class="blue-grey darken-4 section-wrapper">
+		 <div id="login-form" class="container form-holder">
+		 	<h2 class="center-align">Login</h2>
 
-	</div>	
-</main>
+			<form action="{% url 'login' %}" method="POST" name="login-form" class="form">
+				{% csrf_token %}
 
-{% include 'lolzin/footer.html' %}
+				{{ form.non_field_errors }}
+
+				<div class="input-field validate">
+					{{ form.username.errors }}
+					{{ form.username.label_tag }}
+					{{ form.username }}
+				</div>
+
+				<div class="input-field validate">
+					{{ form.password.errors }}
+					{{ form.password.label_tag }}
+					{{ form.password }}
+				</div>
+
+				<div class="center">
+					<button type="submit" name="action" class="btn waves-effect waves-light">Fazer Login</button>
+				</div>
+			</form>
+		 </div>
+	</section>
+{% endblock main_content %}
+
+{% block footer %}
+	<div class="footer-copyright blue-grey darken-3">
+		<div class="container">
+			© Felipe Aragão e Nilo Araújo -  2016
+		</div>
+	</div>
+{% endblock footer %}

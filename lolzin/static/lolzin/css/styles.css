@@ -1,0 +1,344 @@
+/** LOLQUIZ STYLESHEET
+	version. 0.1
+	author. Felipe Vasconcelos
+*/
+
+body {
+	display: flex;
+	min-height: 100vh;
+	flex-direction: column;
+}
+
+main {
+	flex: 1 0 auto;
+	padding: 0;
+	margin: 0;
+}
+
+.errorlist {
+	margin: 0;
+	color: #d32f2f;
+}
+
+
+/* =======================
+	1. ELEMENTOS GERAIS
+   ======================= */
+
+.brand-logo {
+	text-transform: uppercase;
+}
+
+.container {
+	width: 90%;
+	margin: 0 auto;
+}
+
+.row {
+	margin-bottom: 0;
+	padding-bottom: 1em;
+}
+
+.clear { 
+	clear: both;
+}
+
+
+h2 {
+	color: orange;
+	text-shadow: 1px 1px 10px black;
+	margin-top: 0;
+	padding-top: 1em;
+}
+
+@media (max-width: 720px) {
+	h2 {
+		padding-top: 0.5em;
+		font-size: 2.3em;
+	}
+}
+
+
+/* =======================
+		2. NAVEGAÇÃO
+   ======================= */
+
+.nav-wrapper {
+	width: 90%;
+	margin: 0 auto;
+}
+
+/* =======================
+   3. ELEMENTOS PRINCIPAIS
+   ======================= */
+
+main, section {
+	min-height: calc(100vh - 56px);
+}
+
+.howto-btn {
+	display: block;
+	font-size: 1.3em;
+	margin-top: 1.5em;
+}
+
+#quiz-intro {
+	color: white;
+	text-align: justify;
+	font-weight: 300;
+}
+
+#quiz-intro h5 {
+	text-align: center;
+	color: orange;
+	text-shadow: 1px 1px 10px black;
+}
+
+#quiz-intro button {
+	color: white;
+	font-weight: 500;
+	margin-top: 0.5em;
+}
+
+#quiz-intro button.btn {
+	background-color: orange;
+	color: black;
+}
+
+#quiz-intro p {
+	margin-top: 1em;
+}
+
+.index-wrapper .form {
+	text-align: left;
+	width: 60%;
+	margin: 0 auto;
+}
+
+.index-wrapper {
+	text-align: justify;
+}
+
+.index-wrapper h3 {
+	margin-top: 0;
+	padding-top: 0.5em;
+	margin-bottom: 1em;
+}
+
+.index-wrapper p {
+	margin-top: 0;
+}
+
+.index-wrapper .mdi {
+	font-size: 8em;
+	font-weight: bold;
+	margin-bottom: 0;
+}
+
+.index-wrapper .row img {
+	max-width: 150px;
+}
+
+#index-ranking h3 {
+	color: orange;
+	text-shadow: 1px 1px 10px black;
+}
+
+.ranking  {
+	border: none;
+}
+
+.ranking li:nth-child(odd) {
+	background-color: #78909c;
+}
+
+.ranking li:nth-child(even) {
+	background-color: #546e7a;
+}
+
+.ranking li.collection-item {
+	border: none;
+}
+
+.ranking li a {
+	color: black;
+}
+
+.collection.ranking {
+	margin-bottom: 0;
+	padding-bottom: 1em;
+}
+
+.pagination {
+	color: white;
+}
+
+.pagination li.active {
+	background-color: orange;
+	color: black;
+}
+
+footer.page-footer {
+	margin-top: 0;
+	padding-top: 0;
+	color: white;
+	text-align: justify;
+}
+
+.page-footer h4 {
+	text-align: center;
+	color: white;
+}
+
+section.section-wrapper {
+	min-height: calc(100vh - 106px);
+}
+
+.profile-avatar-ph i, .profile-avatar {
+	max-width: 150px;
+	max-height: 150px;
+	font-size: 8em;
+	margin: 0;
+	background-color: grey;
+}
+
+.user-info {
+	margin: 0;
+	margin-left: 1em;
+}
+
+.user-info .nick {
+	font-size: 3em;
+	color: #607d8b;
+}
+
+.question-holder {
+	background-repeat: no-repeat; 
+	background-position: center;
+	background-size: cover;
+	height: 100%;
+}
+
+.question-card {
+	background-color: rgba(55,71,79,0.8);
+	z-index: 5;
+}
+
+.question-info {
+	margin-top: -7px;
+}
+
+@media (max-width: 480px) {
+	.question-info {
+		margin-top: 10px;
+	}
+}
+
+.card-content img {
+	width: 100px;
+	height: 100px;
+	margin-right: 10px;
+}
+
+#question-form input[type="radio"] {
+	display: block;
+	clear: right;
+}
+
+#question-form input[type="radio"] {
+	color: orange;
+}
+
+#question-form button[type="submit"] {
+	display: block;
+	margin-top: 0.5em;
+}
+
+#question-form label {
+	color: white;
+}
+
+[type="radio"]:not(:checked) + label:before,
+[type="radio"]:not(:checked) + label:after {
+  border: 2px solid white;
+}
+
+[type="radio"]:checked + label:after,
+[type="radio"].with-gap:checked + label:before,
+[type="radio"].with-gap:checked + label:after {
+  border: 2px solid orange;
+}
+
+[type="radio"]:checked + label:after,
+[type="radio"].with-gap:checked + label:after {
+  background-color: orange;
+
+}
+
+#timer {
+	width: 80px;
+	height: 80px;
+	color: white;
+}
+
+/* =======================
+   	  4. FORMULÁRIOS
+   ======================= */
+
+.input-field input {
+	color: white;
+}
+
+/* label color */
+.input-field label {
+ color: white;
+}
+/* label focus color */
+.input-field input[type=text]:focus + label {
+ color: white;
+}
+/* label underline focus color */
+.input-field input[type=text]:focus, .input-field input[type=email]:focus, 
+.input-field input[type=password]:focus {
+ border-bottom: 1px solid orange;
+ box-shadow: 0 1px 0 0 orange;
+}
+/* valid color */
+.input-field input[type=text].valid {
+ border-bottom: 1px solid #000;
+ box-shadow: 0 1px 0 0 #000;
+}
+/* invalid color */
+.input-field input[type=text].invalid {
+ border-bottom: 1px solid #000;
+ box-shadow: 0 1px 0 0 #000;
+}
+/* icon prefix focus color */
+.input-field .prefix.active {
+ color: #000;
+}
+
+.form-holder .form {
+	width: 60%;
+	margin: 0 auto;
+}
+
+@media (max-width: 720px) {
+	.form-holder .form {
+		width: 80%;
+	}
+}
+
+.form-holder .form:first-child {
+	margin-top: 0;
+	padding-top: 1rem;
+}
+
+.form-holder .btn {
+	color: black;
+	background-color: orange;
+}
+
+.form-holder .btn-flat {
+	color: orange;
+}

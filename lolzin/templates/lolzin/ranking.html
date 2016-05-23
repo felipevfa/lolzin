@@ -1,35 +1,68 @@
-{% include 'lolzin/head.html' %}
+{% extends "lolzin/base.html" %}
+{% load staticfiles %}
 
-<main>
-	<h1>Ranking</h1>
+{% block page_title %} Ranking {% endblock page_title %}
 
-	<div class="ranking">
-		<center><table>
-			<tr>
-				<th>Posição</th>
-				<th>Usuário</th>
-				<th>Pontos</th>
-				<th>Win Rate</th>
-				<th>Liga</th>
-			</tr>
-			
-			{% for user in users %}
-			<tr>
-				<td>{{ forloop.counter }}</td>
-				<td>
-					<a href='{% url 'profile' user.nick %}'>
-						{{ user.nick }}
-					</a>
-				</td>
-				<td>{{ user.points }}</td>
-				<td>{{ user.winrate  }}</td>
-				<td>{{ user.league  }}</td>
+{% block active_ranking %} "active" {% endblock active_ranking %}
+{% block active_mranking %} "active" {% endblock active_mranking %}
 
+{% block main_content %}
+	<section class="blue-grey darken-4 section-wrapper">
+		<div class="container">
+			<h2 class="center">Ranking</h2>
 
-			</tr>
-			{% endfor %}
-		</table></center>
+			<ul class="pagination">
+				{% if not rank_page.has_previous %}
+					<li class="disabled"><i class="mdi mdi-chevron-left"></i></li>
+				{% else %}
+					<li><a href="{% url 'ranking' rank_page.previous_page_number %}"><i class="mdi mdi-chevron-left"></i></a></li> 
+				{% endif %}
+
+				{% for page_number in ranking.page_range %}
+					{% if rank_page.number == forloop.counter %}
+						<li class="active">{{ rank_page.number }}</li>
+					{% else %}
+						<li class="waves-effect"><a href="{% url 'group_log' forloop.counter %}">{{ rank_page.number }}</a></li>
+					{% endif %}
+				{% endfor %}
+
+				{% if not rank_page.has_next %}
+					<li class="disabled"><i class="mdi mdi-chevron-right"></i></li>
+				{% else %}
+					<li><a href="{% url 'ranking' rank_page.next_page_number %}"><i class="mdi mdi-chevron-right"></i></a></li>
+				{% endif %}
+			</ul>
+
+			<ul class="collection ranking">
+				{% for user in rank_page %}
+					<li class="collection-item avatar">
+						<a href="{% url 'profile' user.nick %}">
+							<div class="left">
+								{% if user.photo %}
+									<img src="{{ user.photo.url }}" class="circle">
+								{% else %}
+									<div class="avatar-placeholder"></div>
+								{% endif %}
+
+								<span class="title">Posição {{ user.rank_position }}</span>
+								<p>{{ user.nick }}</p>
+								<p>Pontos: {{ user.points }}</p>
+							</div>
+
+							<p class="right">{{ user.league }}</p>
+							<div class="clear"></div>
+						</a>
+					</li>
+				{% endfor %}
+			</ul>
+		</div>
+	</section>
+{% endblock main_content %}
+
+{% block footer %} 
+	<div class="footer-copyright blue-grey darken-3">
+		<div class="container">
+			© Felipe Aragão e Nilo Araújo -  2016
+		</div>
 	</div>
-</main>
-
-{% include 'lolzin/footer.html' %}
+{% endblock footer %}

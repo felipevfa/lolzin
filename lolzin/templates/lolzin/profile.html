@@ -1,27 +1,32 @@
-{% include 'lolzin/head.html' %}
+{% extends "lolzin/base.html" %}
 {% load staticfiles %}
-<main style="background-image: url({{ background }})">
 
-	<div class="user-cp">
-		<h1>Perfil</h1>
+{% block page_title %} Meu perfil {% endblock page_title %}
 
-		<div class="avatar-placeholder left"> 
-			{% if profile_user.photo %}
-				<img src="{{ profile_user.photo.url }}" /> 
-			{% endif %}
+{% block active_cp %} "active" {% endblock active_cp %}
+{% block active_mcp %} "active" {% endblock active_mcp %}
+
+{% block main_content %}
+	<section class="blue-grey darken-4 section-wrapper">
+		<div class="container">
+			<div class="row">
+				<h2 class="center">Perfil: {{ user.nick }}</h2>
+
+				<div class="card blue-grey darken-2">
+					<div class="card-content">
+						ALO
+					</div>
+				</div>
+				
+			</div>
 		</div>
-		<ul class="user-info left q-holder" >
-			<li>{{ profile_user.nick }}</li>
-			<li>Pontuação: {{ profile_user.points }}</li> 
-			<li>Liga: {{ profile_user.league }}</li>
-			<li>Questões tentadas: {{ profile_user.numQuestions }}</li>
-			<li>Questões corretas: {{ profile_user.cQuestions }}</li>
-		</ul>
+	</section>
+{% endblock main_content %}
 
-		<ul class="user-menu right">
-				<img src="{% static imgsrc_liga %}" /> 
-		</ul>
-		</clear>
+{% block footer %}
+	<div class="footer-copyright blue-grey darken-3">
+		<div class="container">
+			© Felipe Aragão e Nilo Araújo - 2016
+		</div>
 	</div>
-</main>
-{% include 'lolzin/footer.html' %}
+{% endblock footer %}

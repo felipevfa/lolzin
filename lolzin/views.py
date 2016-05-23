@@ -10,6 +10,7 @@ from django.forms import ModelForm
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.exceptions import ObjectDoesNotExist
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.template import RequestContext
 from django.db import IntegrityError
 from django.db.models import Q
@@ -28,6 +29,20 @@ fail_gif = lollib.fail_gif
 ## Campeões
 CHAMPIONS = []
 
+def index(request):
+	logger.debug('index')
+
+	form = UserAuthenticationForm()
+	top = lolzinUser.objects.all().order_by('-points').exclude(numQuestions=0)[0:10]
+	
+
+	context = {
+		'form': form,
+		'top_ten': top,
+	}	
+
+	return render(request, 'lolzin/index.html', context);
+
 def view_api(request):
 	logger.debug('view_api')
 	logger.debug('view_api')
@@ -39,7 +54,7 @@ def view_api(request):
 
 	
 
-def basic(request):
+def game(request):
 	logger.debug('basic')
 	global CHAMPIONS
 	
@@ -76,7 +91,7 @@ def basic(request):
 			'imgsrcliga' : imgsrc_liga,
 		}
 		logger.debug(background_link)
-		return render(request,'lolzin/basic.html', contexto)
+		return render(request,'lolzin/game.html', contexto)
 	else:
 		pts = 0.0
 		if not request.POST.has_key('choice'):
@@ -170,10 +185,10 @@ def login(request):
 		if user is not None:
 			if user.is_active:
 				auth_login(request, user)
-				return HttpResponseRedirect('lolzin/user_cp.html')
+				return HttpResponseRedirect(reverse('profile', kwargs={'username': user.nick}))
 
 				login(request, user)
-				return HttpResponseRedirect('lolzin/user_cp.html')
+				return HttpResponseRedirect(reverse('profile', kwargs={'username': user.nick}))
 			else:
 				return render(request, 'lolzin/login.html', { 'login_msg': 'Conta desativada.', 'form': form })
 		else:
@@ -185,7 +200,7 @@ def login(request):
 def logout(request):
 	logger.debug('logout')
 	auth_logout(request)
-	return HttpResponseRedirect(reverse('basic'))
+	return HttpResponseRedirect(reverse('index'))
 
 def profile(request,username):
 	user = lolzinUser.objects.get(nick=username)
@@ -203,6 +218,7 @@ def profile(request,username):
 
 def user_cp(request):
 	logger.debug('user_cp')
+
 	if request.user.is_authenticated():
 		return render(request, 'lolzin/user_cp.html')
 	else:
@@ -213,5 +229,21 @@ def user_cp(request):
 def ranking(request):
 	logger.debug('ranking')
 	users = lolzinUser.objects.all().order_by('-points').exclude(numQuestions=0)
-	return render(request, 'lolzin/ranking.html', { 'users': users })
+	p = Paginator(users, 15)
+
+	page = request.GET.get('page')
+
+	try:
+		rank_page = p.page(page)
+	except PageNotAnInteger:
+		rank_page = p.page(1)
+	except EmptyPage:
+		rank_page = p.page(p.num_pages)
+
+	context = {
+		'ranking': p,
+		'rank_page': rank_page
+	}
+
+	return render(request, 'lolzin/ranking.html', context)
 

@@ -1,17 +1,54 @@
-{% include 'lolzin/head.html' %}
+{% extends "lolzin/base.html" %}
+{% load staticfiles %}
 
-<main>
-	<div class="form-holder"> 
-		<p>{{ signup_msg }}</p>
-		<form enctype="multipart/form-data"  action="{% url 'signup' %}" method="POST" name="signup-form" class="form">
-			{% csrf_token %}
+{% block page_title %} Cadastro {% endblock page_title %}
 
-			{{ form }} 
+{% block active_signup %} "active" {% endblock active_signup %}
 
-			<input type="submit" value="Cadastrar" class="submit-button">
-		</form>
+{% block main_content %}
+	<section class="blue-grey darken-4 section-wrapper">
+		 <div id="signup-form" class="container form-holder">
+		 	<h2 class="center-align">Cadastro</h2>
 
-	</div>	
-</main>
+			<form action="{% url 'signup' %}" method="POST" name="signup-form" class="form">
+				{% csrf_token %}
 
-{% include 'lolzin/footer.html' %}
+				{{ form.non_field_errors }}
+
+				{% for field in form %}
+					{% if not forloop.last %}
+						{{ field.errors }}
+						<div class="input-field">
+							{{ field.label_tag }} 
+							{{ field }}
+						</div>
+					{% endif %}
+				{% endfor %}
+
+				<div class="file-field input-field">
+					<div class="btn orange">
+						<span>{{ form.photo.label }}</span>
+						{{ form.photo }}
+					</div>
+
+					<div class="file-path-wrapper">
+						<input class="file-path validate" type="text">
+					</div>
+				</div>
+
+				<div class="center">
+					<button type="submit" name="action" class="btn waves-effect waves-light">Cadastrar</button>
+					<a href="{% url 'index' %}" class="btn-flat waves-effect">Cancelar</a>
+				</div>
+			</form>
+		 </div>
+	</section>
+{% endblock main_content %}
+
+{% block footer %} 
+	<div class="footer-copyright blue-grey darken-3">
+		<div class="container">
+			© Felipe Aragão e Nilo Araújo -  2016
+		</div>
+	</div>
+{% endblock footer %}
