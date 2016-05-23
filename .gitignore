@@ -1,3 +1,11 @@
+<<<<<<< HEAD
 *pyc
 venv
 *log
+=======
+venv
+*.pyc
+staticfiles
+.env
+db.sqlite3
+>>>>>>> 30a881182efc33fb8fa4042434cf047cbfbfd38f
