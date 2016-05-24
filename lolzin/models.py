@@ -62,9 +62,6 @@ class lolzinUser(AbstractBaseUser):
 	cQuestions = models.IntegerField(default=0)
 	photo = models.FileField(upload_to='lolzin/avatars', default=0)
 	winrate = models.FloatField(default=50)
-	is_active = models.BooleanField(default=True)
-	is_superuser = models.BooleanField(default=False)
-	is_admin = models.BooleanField(default=False)
 
 	USERNAME_FIELD = 'nick'
 	REQUIRED_FIELDS = ['identifier']
