@@ -32,7 +32,7 @@
 								<li class={% block active_ranking %} {% endblock active_ranking %}><a href="{% url 'ranking' %}">Ranking</a></li>
 
 								{% if request.user.is_authenticated %}
-									<li class={% block active_cp %} {% endblock active_cp %}><a href="{% url 'profile' request.user.nick %}">Meu perfil</a></li>
+									<li class={% block active_cp %} {% endblock active_cp %}><a href="{% url 'profile' request.user %}">Meu perfil</a></li>
 									<li><a href="{% url 'logout' %}">Desconectar</a></li>
 								{% else %}
 									<li class={% block active_signup %} {% endblock active_signup %}><a href="{% url 'signup' %}">Cadastrar</a></li>

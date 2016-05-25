@@ -29,7 +29,7 @@
 			<div class="nav-wrapper" >
 				<a class="brand-logo">LOLQUIZ </a>
 				<ul id="nav-mobile" class="right hide-on-med-and-down">
-					<li> <a href={% url 'basic' %}>Página Inicial</a> </li>
+					<li> <a href={% url 'index' %}>Página Inicial</a> </li>
 					<li> <a href={% url 'ranking' %}>Ranking</a> </li>
 					{% if user.is_authenticated %}
 						<li> <a href={% url 'logout' %}>Logout</a> </li>

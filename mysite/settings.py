@@ -15,6 +15,8 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'lolzin',
 )
+
+
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -52,7 +54,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'pt-br'
 
 TIME_ZONE = 'UTC'
 
@@ -99,12 +101,6 @@ STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
 
 
-#########################################
-###        user authentication      #####
-#########################################
-AUTH_USER_MODEL = 'lolzin.lolzinUser'
-LOGIN_URL = 'lolzin/login'
-LOGOUT_URL = 'lolzin/logout'
 
 
 

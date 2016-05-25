@@ -1,10 +1,10 @@
 # coding: utf-8
-import random
 import json
+from random import choice
 import urllib2
 from django import forms
-from lolzin.models import lolzinUser
-from lolzin.forms import UserSignupForm, UserAuthenticationForm
+from lolzin.models import lolzinUser,User
+from lolzin.forms import UserSignupForm,UserAuthenticationForm
 from django.contrib.auth import get_user_model, authenticate, login as auth_login, logout as auth_logout
 from django.forms import ModelForm
 from django.shortcuts import render
@@ -14,20 +14,15 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.template import RequestContext
 from django.db import IntegrityError
 from django.db.models import Q
-from lollib import loltermos, rids, random_question_item, update_user,solicitar_campeoes
+from lollib import loltermos, rids
 from django.http import JsonResponse
 from django.core.urlresolvers import reverse
 import logging
-import lollib
+from lolzin.lollib import win_gif,fail_gif
+from lolzin.lollib import api
+
 logger = logging.getLogger(__name__)
 
-
-win_gif = lollib.win_gif 
-
-fail_gif = lollib.fail_gif 
-
-## Campeões
-CHAMPIONS = []
 
 def index(request):
 	logger.debug('index')
@@ -43,55 +38,21 @@ def index(request):
 
 	return render(request, 'lolzin/index.html', context);
 
-def view_api(request):
-	logger.debug('view_api')
-	logger.debug('view_api')
-	data = {
-		'mamao' : 'melao',
-		'limao' : 'aviao'
-	}
-	return JsonResponse(data)
-
-	
-
 def game(request):
 	logger.debug('basic')
-	global CHAMPIONS
 	
 	if(request.method != 'POST'):
 		# Se o vetor de campeões estiver vazio, solicita o vetor.
-		if not CHAMPIONS:
-			CHAMPIONS = solicitar_campeoes()
-		
-		item_correto, opts, atributo,item_dict = random_question_item()
-
-		champ_name = str(random.choice(list(CHAMPIONS['data'])))
-		lista_skin = CHAMPIONS['data'][champ_name]['skins']
-		skin_number = str(random.choice(lista_skin)['num'])
-		background_link = "http://ddragon.leagueoflegends.com/cdn/img/champion/splash/" + champ_name + "_" + skin_number + ".jpg"
-		item_img_link = "http://ddragon.leagueoflegends.com/cdn/5.23.1/img/item/"+str(item_dict["id"])+".png"
-		imgsrc_liga = None
-		if request.user.is_authenticated():
-			liga_str = request.user.league.split()[0]
-			if liga_str == 'unranked':
-				liga_img_index = 0
-			else:
-				liga_img_index = lollib.ligas.index(liga_str)+1
-				imgsrc_liga = 'lolzin/img/rank'+str(liga_img_index)+'.png'
-			
-		contexto  = {
-			'item_name':item_dict['name'],
-			'stats' : item_dict["stats"],
-			'item_id':item_dict["id"],
-			'item_correto' :  opts[item_correto],
-			'opts' : opts,
-			'atributo' : loltermos[atributo],
-			'imgsrc' : item_img_link,
-			'background' : background_link,
-			'imgsrcliga' : imgsrc_liga,
+		random = api.random_item()
+		item = api.random_item()	
+		question = api.random_item_question(item)
+		ct = {
+			'background' : api.random_champion_background(),
+			'item_name' : item['name']  
 		}
-		logger.debug(background_link)
-		return render(request,'lolzin/game.html', contexto)
+		ct.update(item)
+		ct.update(question)
+		return render(request,'lolzin/game.html', ct)
 	else:
 		pts = 0.0
 		if not request.POST.has_key('choice'):
@@ -103,17 +64,20 @@ def game(request):
 				resposta = 0
 			
 			if request.user.is_authenticated():
-				request.user, pts = update_user(request.user,resposta)
-				request.user.save()
+				pts = request.user.lolzinuser.update_user(resposta)
 			else:
 				pts = 0
 
-			win_img ,fail_img = random.choice(win_gif),random.choice(fail_gif)
+			win_img = choice(win_gif)
+			fail_img =  choice(fail_gif)
 
 			if (pts < 0):
 				pts = abs(pts)
 
-			contexto = { 'resposta': resposta, 'win_img': win_img, 'fail_img': fail_img, 'pontos': pts }
+			contexto = { 'resposta': resposta,
+				'win_img': win_img,
+				'fail_img': fail_img,
+				'pontos': pts }
 			request.session['temp_data'] = contexto
 
 			return HttpResponseRedirect(reverse("feedback"))
@@ -133,6 +97,7 @@ def feedback(request):
 #		  USUÁRIO			#
 #############################
 
+
 # Formulário de cadastro.
 
 def signup(request):
@@ -141,30 +106,17 @@ def signup(request):
 
 	if request.method == 'POST':
 		form = UserSignupForm(request.POST, request.FILES)
-		has_db_errors = False
 
 		if form.is_valid():
-			errors = form.check_values()
+				form.save()
 
-			if errors['user_error']:
-				error_msg = error_msg + 'Usuário já cadastrado.<br>'
-				has_db_errors = True
-
-			if errors['email_error']:
-				error_msg = error_msg + 'E-mail já cadastrado.<br>'
-				has_db_errors = True
-
-			if has_db_errors:
-				return render(request, 'lolzin/signup.html', { 'form': form, 'signup_msg': error_msg })
-			else:
-				user = form.save()
-				user.save()
-
-				new_user = authenticate(username=request.POST['nick'], 
+				new_user = authenticate(username=request.POST['username'], 
 										password=request.POST['password1'])
+				
 				auth_login(request, new_user)
 
-				return HttpResponseRedirect('/lolzin/user_cp.html')
+				return HttpResponseRedirect(reverse('profile',args=[new_user.username]))
+
 	else:
 		form = UserSignupForm()
 
@@ -178,20 +130,20 @@ def login(request):
 	if request.method == 'POST':
 		username = request.POST['username']
 		password = request.POST['password']
-		
-
+		print username
+		print password
 		user = authenticate(username=username, password=password)
-
+		print user
+		print user
 		if user is not None:
 			if user.is_active:
-				auth_login(request, user)
-				return HttpResponseRedirect(reverse('profile', kwargs={'username': user.nick}))
-
-				login(request, user)
-				return HttpResponseRedirect(reverse('profile', kwargs={'username': user.nick}))
+				auth_login(request,user)
+				return HttpResponseRedirect(reverse('profile', kwargs={'username': user.username}))
 			else:
+				return HttpResponse('mamao')
 				return render(request, 'lolzin/login.html', { 'login_msg': 'Conta desativada.', 'form': form })
 		else:
+			return HttpResponse('melao')
 			return render(request, 'lolzin/login.html', { 'login_msg': 'Combinação de usuário e senha incorreta.', 'form': form })
 	else:
 		return render(request, 'lolzin/login.html', { 'form': form })
@@ -203,8 +155,8 @@ def logout(request):
 	return HttpResponseRedirect(reverse('index'))
 
 def profile(request,username):
-	user = lolzinUser.objects.get(nick=username)
-	liga_str = user.league.split()[0]
+	user = User.objects.get(username=username)
+	liga_str = user.lolzinuser.league.split()[0]
 	if liga_str == 'unranked':
 		liga_img_index = 0
 	else:

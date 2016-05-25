@@ -13,7 +13,7 @@
 				<div class="col s12 m8 l8">
 					<div class="question-card card flow-text white-text">
 						<div class="card-content">
-							<img src="{{ imgsrc }}" class="left" >
+							<img src="{{ item_img_link }}" class="left" >
 							<div class="question-info left">
 								<p class="question-title orange-text flow-text"> {{ item_name }}</p>
 								<p class="question">Qual o valor de <span class="orange-text">{{ atributo }}</span>?</p>
@@ -22,11 +22,7 @@
 									{% csrf_token %}
 
 									{% for opt in opts %}
-										{% if opt == item_correto %}
 											<input name="choice" type="radio" id="{{ forloop.counter }}" value="1" class="with-gap">
-										{% else %}
-											<input name="choice" type="radio" id="{{ forloop.counter }}" value="0" class="with-gap">
-										{% endif %}
 										<label for="{{ forloop.counter }}">{{ opt }}</label>
 										<br> 
 									{% endfor %}

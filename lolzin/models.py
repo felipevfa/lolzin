@@ -1,94 +1,66 @@
 # coding: utf-8
 from django.db import models
-from django.contrib.auth.models import (BaseUserManager, AbstractBaseUser)
+from django.contrib.auth.models import User
+from lolzin.lollib import api
 
-class lolzinUserManager(BaseUserManager):
-	def create_user(self, username, email, password, photo):
-		if not username:
-			raise ValueError("Defina um nome de usuário.")
 
-		if not email:
-			raise ValueError("Forneça um e-mail válido.")
-
-		if not password or len(password) < 6:
-			raise ValueError("Por favor, insira uma senha entre 6 e 16 caracteres.")
-
-		if not photo:
-			user = self.model(nick=username,
-						  	  identifier=self.normalize_email(email), 
-						 	 )
-		else:
-			user = self.model(nick=username,
-							  identifier=self.normalize_email(email),
-							  photo=photo
-							 )
-
-		user.set_password(password)
-		user.save(using=self._db)
-		return user
-
-	def create_superuser(self, username, email, password, photo):
-		if not username:
-			raise ValueError("Defina um nome de usuário.")
-
-		if not email:
-			raise ValueError("Forneça um e-mail válido.")
-
-		if not password or len(password) < 6:
-			raise ValueError("Por favor, insira uma senha entre 6 e 16 caracteres.")
-
-		if not photo:
-			user = self.model(identifier=username,
-						  	  email=self.normalize_email(email), 
-						 	 )
-		else:
-			user = self.model(identifier=username,
-							  email=self.normalize_email(email),
-							  photo=photo
-							 )
-
-		user.is_admin = True
-		user.set_password(password)
-		user.save(using=self._db)
-		return user
-
-class lolzinUser(AbstractBaseUser):
-	identifier = models.EmailField(max_length=120, unique=True)
-	nick = models.CharField(max_length=20, unique=True)
+class lolzinUser(models.Model):
+	user = models.OneToOneField(User,on_delete=models.CASCADE)
 	points = models.IntegerField(default=0)
-	rank_position = models.CharField(max_length=10, null=True)
 	league = models.CharField(max_length=10, default='unranked')
 	numQuestions = models.IntegerField(default=0)
 	cQuestions = models.IntegerField(default=0)
 	photo = models.FileField(upload_to='lolzin/avatars', default=0)
 	winrate = models.FloatField(default=50)
-
-	USERNAME_FIELD = 'nick'
-	REQUIRED_FIELDS = ['identifier']
-
-	objects = lolzinUserManager()
-
-	def get_full_name(self):
-		return self.nick
-
-	def get_short_name(self):
-		return self.nick
-
-	def __str__(self):
-		return self.nick
-
-
-# class User(models.Model):
-# 	nick = models.CharField(max_length=20, unique=True)
-# 	password = models.CharField(max_length=16)
-# 	points = models.IntegerField(default=0)
-# 	rank_position = models.CharField(max_length=10, null=True)
-# 	league = models.CharField(max_length=10, default='Bronze V') 
-# 	totalQuestoes = models.IntegerField(default=0)
-# 	qtdAcertos = models.IntegerField(default=0)
-# 	photo = models.FileField(upload_to='avatars',default=0)
 	
-# 	def __str__(self):
-# 		return self.nick
-# 		
-		
+
+	
+
+	def make_league(self):
+		if(self.numQuestions<10):
+			return 'unranked'
+
+		pontuacao = self.points
+		if pontuacao < api.pontos_de_liga[0] :
+			return 'Bronze 5'
+		if pontuacao >= pontos_de_liga[6] :
+			return 'Faker'
+		if pontuacao >= pontos_de_liga[5]:
+			return 'Mestre'
+		x = 0
+		while(pontuacao > pontos_de_liga[x+1]):
+			x += 1
+
+		liga = ligas[x]
+		resto = pontuacao - pontos_de_liga[x]
+		intervalo = pontos_de_liga[x+1] - pontos_de_liga[x]
+		intervalo /= 5
+		resto  = int(resto/intervalo)
+		print resto,intervalo,pontos_de_liga[x],pontos_de_liga[x+1],pontuacao- pontos_de_liga[x]
+		return liga + ' '+ str(5-resto)
+
+
+	def update_user(self,resposta):
+		self.numQuestions += 1
+		total = self.numQuestions
+		if(resposta):
+			self.cQuestions += 1
+		acertos =  self.cQuestions
+		winrate = 	float(acertos)/total
+		if(resposta):
+			pts = 10**((winrate+1)**2)
+		else:
+			pts = -self.points*0.075
+		winrate = int(100*winrate)/100.0
+		if(total<10):
+			if(pts>0):
+				pts = pts**((total*5+50)/100.0)+acertos
+			else:
+				pts = -((-pts)**((total*5+50)/100.0))
+		self.points += pts
+		self.winrate = winrate
+		self.league = self.make_league()
+		self.save()
+		return int(pts)
+
+
