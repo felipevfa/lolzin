@@ -22,12 +22,16 @@
 									{% csrf_token %}
 
 									{% for opt in opts %}
-											<input name="choice" type="radio" id="{{ forloop.counter }}" value="1" class="with-gap">
+										{% if opt == item_correto %}
+											<input name="choice" type="radio" id="option-{{ forloop.counter }}" value="1" class="with-gap">
+										{% else %}
+											<input name="choice" type="radio" id="option-{{ forloop.counter }}" value="0" class="with-gap">
+										{% endif %}
 										<label for="{{ forloop.counter }}">{{ opt }}</label>
 										<br> 
 									{% endfor %}
 
-									 <button class="orange btn waves-effect waves-light" type="submit" name="action">Responder</button>
+									 <button class="orange btn waves-effect waves-light" type="submit" id="answer-button" name="action">Responder</button>
 								</form>
 							</div>
 							<div class="clear"></div>
