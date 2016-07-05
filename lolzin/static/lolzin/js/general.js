@@ -14,7 +14,6 @@ var adjustQuestionCardBackground = function () {
 var adjustSectionSize = function () {
 	var main = $("main");
 
-	console.log("OLAR");
 	main.has("section.section-wrapper").css("min-height", "calc(100vh - 106px)");
 };
 
@@ -68,7 +67,6 @@ $(document).ready(function() {
 	adjustQuestionCardBackground();
 	
 	if ($("#question-form").length > 0) {
-		console.log("OLAR");
 		setKeyboardShortcuts();
 	}
 });

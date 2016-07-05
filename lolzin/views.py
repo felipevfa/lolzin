@@ -19,7 +19,7 @@ from django.http import JsonResponse
 from django.core.urlresolvers import reverse
 import logging
 from lolzin.lollib import win_gif,fail_gif
-from lolzin.lollib import api
+from lolzin.lollib import api,profile_background
 
 logger = logging.getLogger(__name__)
 
@@ -164,7 +164,7 @@ def profile(request,username):
 	contexto = {
 		'profile_user' : user,
 		'imgsrc_liga' : 'lolzin/img/rank'+str(liga_img_index)+'.png',
-		'background' : lollib.profile_background[liga_str]
+		'background' : profile_background[liga_str]
 	}
 	return render(request,'lolzin/profile.html', contexto)
 

@@ -1,4 +1,7 @@
-{% include 'lolzin/head.html' %}
+{% extends "lolzin/base.html" %}
+{% load staticfiles %}
+
+{% block main_content %}
 
 <main class="feedback">
 	{% if resposta == 1%}
@@ -24,4 +27,11 @@
 	
 </main>
 
-{% include 'lolzin/footer.html' %}
+{% endblock main_content %}
+{% block footer %}
+	<div class="footer-copyright blue-grey darken-3">
+		<div class="container">
+			© Felipe Aragão e Nilo Araújo - 2016
+		</div>
+	</div>
+{% endblock footer %}
