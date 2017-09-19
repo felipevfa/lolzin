@@ -48,7 +48,7 @@ TEMPLATES = [
 
 #WSGI_APPLICATION = 'mysite.wsgi.application'
 
-SECRET_KEY = '-c&qt=71oi^e5s8(ene*$b89^#%*0xeve$x_trs91veok9#0h0'
+SECRET_KEY = os.environ["API_KEY"]
 
 DEBUG = True
 
@@ -95,16 +95,6 @@ STATICFILES_DIRS = (
 STATIC_URL = '/static/'
 STATIC_ROOT='static'
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
-
-
-
-
-
-
-
-
-
-
 
 ########################################
 ###         BANCO DE DADOS           ###
